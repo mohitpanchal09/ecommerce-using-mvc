@@ -30,6 +30,26 @@ router.get('/product/:id',async(req,res)=>{
     res.render('show',{product})
 })
 
+//to show edit form
+router.get('/product/:id/edit',async(req,res)=>{
+    let {id} = req.params
+    let product = await Product.findById(id)
+    res.render('edit',{product})
+})
 
+//to actually edit the form
+router.patch('/products/:id',async(req,res)=>{
+    let {id} = req.params
+    let {name,desc,img,price} = req.body
+    await Product.findByIdAndUpdate(id,{name,desc,img,price})
+    res.redirect('/products')
+})
+
+// to delete a product
+router.delete('/products/:id',async(req,res)=>{
+    let {id} = req.params
+    await Product.findByIdAndDelete(id)
+    res.redirect('/products')
+})
 
 module.exports = router

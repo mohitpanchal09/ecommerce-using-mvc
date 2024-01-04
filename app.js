@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path')
 const seedDb = require('./seed')
 const productRoutes = require('./routes/product')
+const methodOverride = require('method-override')
 mongoose.connect('mongodb://127.0.0.1:27017/flipkart')
 .then(()=>{
     console.log('db connected ...')
@@ -12,6 +13,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/flipkart')
     console.log(err)
 })
 // seedDb(); // run it only once to seed the database
+
+//enabling method override
+app.use(methodOverride('_method'))
 
 //set view engine
 app.set('view engine','ejs')

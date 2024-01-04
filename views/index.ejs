@@ -13,7 +13,9 @@
         <p><%=item.desc%></p>
         <a href="/product/<%=item._id%>">view product</a>
         <p><%=item.price%></p>
-        
+        <form action="/products/<%=item._id%>?_method=DELETE" method="POST">
+            <button type="submit">delete</button>
+        </form>
    <%}%>
 </body>
 </html>
