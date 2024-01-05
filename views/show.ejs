@@ -11,6 +11,19 @@
     <p><%=product.desc%></p>
     <p><%=product.price%></p>
     <a href="/product/<%=product._id%>/edit">edit</a>
-
+    <br>
+    
+    <h1>reviews</h1>
+    <%for(let item of product.reviews){%>
+        <p><%=item.comment%></p>  
+   <% }%>
+    <h1>review</h1>
+    <form action="/products/<%=product._id%>/review" method="POST">
+        <input type="range" min="0" max="5" name="rating">
+        <input type="text" name="comment"  id="cmnt">
+        <button type="submit">submit</button>
+            
+    </form>
+    
 </body>
 </html>

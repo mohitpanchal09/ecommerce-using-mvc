@@ -26,7 +26,8 @@ router.post('/products',async (req,res)=>{
 //get single products
 router.get('/product/:id',async(req,res)=>{
     let {id} = req.params
-    let product = await Product.findById(id)
+    let product = await Product.findById(id).populate('reviews')
+    console.log(product)
     res.render('show',{product})
 })
 

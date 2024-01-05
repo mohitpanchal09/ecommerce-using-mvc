@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const path = require('path')
 const seedDb = require('./seed')
 const productRoutes = require('./routes/product')
+const reviewRoutes = require('./routes/review')
+
 const methodOverride = require('method-override')
 mongoose.connect('mongodb://127.0.0.1:27017/flipkart')
 .then(()=>{
@@ -31,7 +33,8 @@ app.use(express.urlencoded({extended:true})) // to parse body data
 
 //productroutes
 app.use(productRoutes)
-
+//review routes
+app.use(reviewRoutes)
 
 
 app.listen(8080,()=>{
