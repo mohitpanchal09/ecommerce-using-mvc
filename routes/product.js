@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router()
 const Product = require('../models/Product')
-const {productValidate} = require('../middleware')
+const {productValidate, isLoggedIn, isProductAuthor} = require('../middleware')
 
 //get all products
 router.get('/products',async(req,res)=>{
     try{
     let products=await Product.find()
-    res.render('index',{products})
+    res.render('products/index',{products})
     }catch(err){
         res.render('error',{err})
     }
@@ -16,9 +16,8 @@ router.get('/products',async(req,res)=>{
 
 //new product form
 
-router.get('/product/new',(req,res)=>{
-    
-    res.render('new')
+router.get('/product/new',isLoggedIn,(req,res)=>{
+    res.render('products/new')
 })
 
 // to actually add the product
@@ -38,26 +37,25 @@ router.get('/product/:id',async(req,res)=>{
     try{
     let {id} = req.params
     let product = await Product.findById(id).populate('reviews')
-    console.log(product)
-    res.render('show',{product})
+    res.render('products/show',{product})
     }catch(err){
         res.render('error',{err})
     }
 })
 
 //to show edit form
-router.get('/product/:id/edit',async(req,res)=>{
+router.get('/product/:id/edit',isLoggedIn,isProductAuthor,async(req,res)=>{
     try{
     let {id} = req.params
     let product = await Product.findById(id)
-    res.render('edit',{product})
+    res.render('products/edit',{product})
     }catch(err){
         res.render('error',{err})
     }
 })
 
 //to actually edit the form
-router.patch('/products/:id',async(req,res)=>{
+router.patch('/products/:id',isLoggedIn,isProductAuthor,async(req,res)=>{
     try{
 
 
@@ -71,7 +69,7 @@ router.patch('/products/:id',async(req,res)=>{
 })
 
 // to delete a product
-router.delete('/products/:id',async(req,res)=>{
+router.delete('/products/:id',isLoggedIn,isProductAuthor,async(req,res)=>{
     try{
     let {id} = req.params
     await Product.findByIdAndDelete(id)
